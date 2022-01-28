@@ -36,7 +36,9 @@ class FileListAdapter : RecyclerView.Adapter<FileListAdapter.ViewHolder>() {
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: FileEntity) {
             binding.apply {
-
+                tvFileName.text = data.fileName
+                tvFileSize.text = data.fileSize
+                tvFileExt.text = data.fileType
             }
         }
     }

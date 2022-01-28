@@ -28,13 +28,7 @@ class MainActivity : AppCompatActivity() {
     private val fileListAdapter by lazy {
         FileListAdapter()
     }
-    private var initData = listOf(
-        FileEntity(
-            fileName = "How to be a good mentor",
-            fileSize = "1000",
-            fileType = ".pdf"
-        )
-    )
+    private var listFile: MutableList<FileEntity> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,11 +44,17 @@ class MainActivity : AppCompatActivity() {
             rvFileList.apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(this@MainActivity)
-                adapter = fileListAdapter?.also {
-                    it.setItems(initData)
-                }
+                adapter = fileListAdapter
                 itemAnimator = null
             }
+            listFile.add(
+                FileEntity(
+                    fileName = "How to be a good mentor",
+                    fileSize = "1000",
+                    fileType = ".pdf"
+                )
+            )
+            fileListAdapter.setItems(listFile.toList())
         }
     }
 
@@ -103,17 +103,14 @@ class MainActivity : AppCompatActivity() {
                     }
                     Log.d("HYKZQWX", "EXT : ${File(name).extension}")
 
-                    fileListAdapter.also { adapter ->
-                        adapter.setItems(
-                            listOf(
-                                FileEntity(
-                                    fileName = name,
-                                    fileSize = "$size",
-                                    fileType = "${File(name).extension}"
-                                )
-                            )
+                    listFile.add(
+                        FileEntity(
+                            fileName = name,
+                            fileSize = "$size",
+                            fileType = "${File(name).extension}"
                         )
-                    }
+                    )
+                    fileListAdapter.setItems(listFile.toList())
                 } finally {
                     cursor!!.close()
                 }
